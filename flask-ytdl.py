@@ -46,12 +46,15 @@ def download():
     
     if not url:
         return "❌ Error: No URL provided."
-    
-    try:
-        filepath = download_video(url, format)
-        return send_file(filepath, as_attachment=True)
-    except Exception as e:
-        return f"❌ Error: {str(e)}"
 
-if __name__ == '__main__':
-    app.run(debug=True)
+    ydl_opts = {
+        'format': 'best[ext=mp4]' if format == 'mp4' else 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+        }] if format == 'mp3' else []
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+        return redirect(info['url'])  # Stream directly
