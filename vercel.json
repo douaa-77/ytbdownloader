@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "flask-ytdl.py",  // Replace with your filename
+      "src": "flask-ytdl.py",  
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "flask-ytdl.py"  // Same as above
+      "dest": "flask-ytdl.py"  
     }
   ]
 }
